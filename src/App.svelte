@@ -380,7 +380,7 @@
           yearNsNe={en2neNumbers(nsYear)}
           dayNe={constants.days[day].ne}
           dateNe={en2neNumbers(date)}
-          dateAd={ad.split('-')[2]}
+          dateAd={parseInt(ad.split('-')[2])}
           saits={saits.map((x) => constants.saits[x][locale]).join('; ')}
           sunrise={locale === 'ne' ? panchanga.sunrise : ne2enNumbers('०६:१२')}
           sunset={locale === 'ne' ? panchanga.sunset : ne2enNumbers(panchanga.sunset)}
