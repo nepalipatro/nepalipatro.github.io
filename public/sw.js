@@ -1,6 +1,6 @@
 'use strict'
 
-var CACHE_NAME = 'nepalipatro-v1.0.0'
+var CACHE_NAME = 'nepalipatro-v1.0.1'
 var ASSETS = [
   '/global.css',
   '/build/bundle.css',
