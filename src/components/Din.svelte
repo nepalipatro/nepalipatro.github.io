@@ -53,6 +53,7 @@
     position: relative;
     box-shadow: var(--card-box-shadow);
     border-radius: 4px;
+    content-visibility: auto;
   }
   .date::after {
     content: attr(data-day);

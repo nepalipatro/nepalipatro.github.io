@@ -354,6 +354,7 @@
           <a
             class="source-link"
             href="https://github.com/nepalipatro/nepalipatro.github.io"
+            rel="noopener"
             target="_blank"><pre>&lt;Source/&gt;</pre></a>
         </div>
       </div>
@@ -361,7 +362,7 @@
   </header>
   <main>
     <div class="navigation">
-      <button title="आज" class="outlined-btn" on:click={todayClickHandler}>{$_('today')}</button>
+      <button class="outlined-btn" on:click={todayClickHandler}>{$_('today')}</button>
       <select name="year" class="outlined-select" on:input={yearChangeHandler}>
         {#each constants.years as year}
           <option value={year} selected={currentYearMonth.year === year + ''}>

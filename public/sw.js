@@ -55,16 +55,26 @@ self.addEventListener('activate', function (evt) {
 
 self.addEventListener('fetch', function (event) {
   event.respondWith(
-    caches.open(CACHE_NAME).then(function (cache) {
-      return cache.match(event.request).then(function (response) {
-        return (
-          response ||
-          fetch(event.request).then(function (response) {
-            cache.put(event.request, response.clone())
-            return response
+    caches
+      .open(CACHE_NAME)
+      .then(function (cache) {
+        return cache
+          .match(event.request)
+          .then(function (response) {
+            return (
+              response ||
+              fetch(event.request)
+            
+                .then(function (response) {
+                    cache.put(event.request, response.clone())
+                    return response
+                  })
+            
+                .catch(console.error)
+            )
           })
-        )
+          .catch(console.error)
       })
-    }),
+      .catch(console.error),
   )
 })
