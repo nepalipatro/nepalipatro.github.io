@@ -75,6 +75,7 @@
         .catch(console.error)
         .finally(() => {
           loading = false
+          scrollTodayIntoView()
         })
     }
   })
@@ -106,6 +107,23 @@
         }
       }
     }
+  }
+
+  function scrollTodayIntoView() {
+    setTimeout(() => {
+      const todayEl = document.querySelector('.today')
+      const todayRect = todayEl && todayEl.getBoundingClientRect()
+      const todayIsInViewport =
+        todayRect &&
+        todayRect.top >= 0 &&
+        todayRect.left >= 0 &&
+        todayRect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        todayRect.right <= (window.innerWidth || document.documentElement.clientWidth)
+
+      if (!todayIsInViewport) {
+        todayEl.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    }, 500)
   }
 
   function hashchangeHandler(e) {
