@@ -8,6 +8,7 @@
   import ne2enNumbers from './utils/ne2enNumbers'
   import getBS from './utils/getBS'
   import Din from './components/Din.svelte'
+  import Skeleton from './components/Skeleton.svelte'
 
   const longDays = ['Tuesday', 'Saturday', 'Thursday', 'Wednesday']
   const shortDays = ['बुधवार', 'शुक्रवार', 'शनिवार', 'सोमवार', 'बिहीवार']
@@ -413,5 +414,5 @@
   </main>
   <footer />
 {:else}
-  <p>Loading...</p>
+  <Skeleton />
 {/if}
