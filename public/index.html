@@ -35,7 +35,7 @@
       For full functionality of this site it is necessary to enable JavaScript.
     </noscript>
     <script>
-      if ('serviceWorker' in navigator) {
+      if (+location.port < 1000 && 'serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js').then((reg) => {
             console.log('Service worker registered.', reg)

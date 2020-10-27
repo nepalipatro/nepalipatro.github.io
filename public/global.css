@@ -131,6 +131,13 @@ svg {
   stroke: var(--color);
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(169px, 1fr));
+  grid-gap: 1rem;
+  margin-bottom: 1em;
+}
+
 .show {
   visibility: visible !important;
   opacity: 1 !important;

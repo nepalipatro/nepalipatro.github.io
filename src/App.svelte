@@ -199,8 +199,7 @@
 
 <style>
   header,
-  main,
-  footer {
+  main {
     position: relative;
     max-width: 1280px;
     margin-right: auto;
@@ -319,13 +318,6 @@
   .navigation > *:not(:first-child) {
     margin-left: 0.5em;
   }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(169px, 1fr));
-    grid-gap: 1rem;
-    margin-bottom: 1em;
-  }
 </style>
 
 {#if $isLocaleLoaded}
@@ -412,7 +404,6 @@
       {/each}
     </div>
   </main>
-  <footer />
 {:else}
   <Skeleton />
 {/if}
