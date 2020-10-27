@@ -43,9 +43,9 @@ jobs:
         env:
           NODE_ENV: production
       - name: Deploy 🚀
-        uses: peaceiris/actions-gh-pages@v3
+        uses: crazy-max/ghaction-github-pages@v2
         with:
-          github_token: ${{ secrets.PUBLISH_TOKEN }}
-          publish_dir: ./public
-          force_orphan: true
-          publish_branch: master
+          build_dir: public
+          target_branch: master
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
