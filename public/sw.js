@@ -1,6 +1,7 @@
 'use strict'
 
-var CACHE_NAME = 'nepalipatro-v1.1.0'
+var CACHE_NAME = 'nepalipatro-v1.1.1'
+
 var ASSETS = [
   '/global.css',
   '/build/bundle.css',
@@ -64,12 +65,10 @@ self.addEventListener('fetch', function (event) {
             return (
               response ||
               fetch(event.request)
-            
                 .then(function (response) {
                     cache.put(event.request, response.clone())
                     return response
                   })
-            
                 .catch(console.error)
             )
           })
