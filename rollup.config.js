@@ -3,8 +3,30 @@ import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import livereload from 'rollup-plugin-livereload'
 import { terser } from 'rollup-plugin-terser'
+import css from 'rollup-plugin-css-only'
+import copy from 'rollup-plugin-copy'
+import { minify } from 'html-minifier-terser'
 
+const pkg = require('./package.json')
 const production = !process.env.ROLLUP_WATCH
+
+const defaultOptions = {
+  removeComments: true,
+  removeCommentsFromCDATA: true,
+  removeCDATASectionsFromCDATA: true,
+  collapseWhitespace: true,
+  collapseBooleanAttributes: true,
+  removeAttributeQuotes: true,
+  removeRedundantAttributes: true,
+  useShortDoctype: true,
+  removeEmptyAttributes: true,
+  removeEmptyElements: false,
+  removeOptionalTags: true,
+  removeScriptTypeAttributes: true,
+  removeStyleLinkTypeAttributes: true,
+  minifyJS: true,
+  minifyCSS: true,
+}
 
 function serve() {
   let server
@@ -37,14 +59,14 @@ export default {
   },
   plugins: [
     svelte({
-      // enable run-time checks when not in production
-      dev: !production,
-      // we'll extract any component CSS out into
-      // a separate file - better for performance
-      css: (css) => {
-        css.write('bundle.css')
+      compilerOptions: {
+        // enable run-time checks when not in production
+        dev: !production,
       },
     }),
+    // we'll extract any component CSS out into
+    // a separate file - better for performance
+    css({ output: 'bundle.css' }),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
@@ -68,6 +90,30 @@ export default {
     // If we're building for production (npm run build
     // instead of npm run dev), minify
     production && terser(),
+    production && copy({
+      targets: [
+        { src: 'public/build/*', dest: 'dist/build' },
+        { src: 'public/data/*', dest: 'dist/data' },
+        { src: 'public/icons/*', dest: 'dist/icons' },
+        {
+          src: 'public/lang/*',
+          dest: 'dist/lang',
+          transform: async (contents) => await minify(contents.toString(), defaultOptions),
+        },
+        { src: 'public/favicon.ico', dest: 'dist/' },
+        {
+          src: ['public/sw.js', 'public/index.html', 'public/global.css', 'public/manifest.json'],
+          dest: 'dist/',
+          transform: async (contents, fileName) => {
+            let contentString = contents.toString()
+            if (['index.html', 'global.css', 'manifest.json'].includes(fileName)) {
+              contentString = await minify(contentString, defaultOptions)
+            }
+            return contentString.replace(/{{appVersion}}/g, pkg.version)
+          },
+        },
+      ],
+    }),
   ],
   watch: {
     clearScreen: false,

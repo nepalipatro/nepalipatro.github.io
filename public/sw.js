@@ -1,11 +1,12 @@
 'use strict'
 
-var CACHE_NAME = 'nepalipatro-v1.1.1'
+var appVersion = '{{appVersion}}'
+var CACHE_NAME = 'nepalipatro-v' + appVersion
 
 var ASSETS = [
-  '/global.css',
-  '/build/bundle.css',
-  '/build/bundle.js',
+  '/global.css?v=' + appVersion,
+  '/build/bundle.css?v=' + appVersion,
+  '/build/bundle.js?v=' + appVersion,
   '/icons/icon-152.png',
   '/icons/icon-180.png',
   '/icons/icon-167.png',
@@ -14,18 +15,19 @@ var ASSETS = [
   '/icons/icon-512.png',
   '/lang/en.json',
   '/lang/ne.json',
-  '/data/2077-01.json',
-  '/data/2077-02.json',
-  '/data/2077-03.json',
-  '/data/2077-04.json',
-  '/data/2077-05.json',
-  '/data/2077-06.json',
-  '/data/2077-07.json',
-  '/data/2077-08.json',
-  '/data/2077-09.json',
-  '/data/2077-10.json',
-  '/data/2077-11.json',
-  '/data/2077-12.json',
+  '/data/years.json?v=' + appVersion,
+  '/data/2079-01.json',
+  '/data/2079-02.json',
+  '/data/2079-03.json',
+  '/data/2079-04.json',
+  '/data/2079-05.json',
+  '/data/2079-06.json',
+  '/data/2079-07.json',
+  '/data/2079-08.json',
+  '/data/2079-09.json',
+  '/data/2079-10.json',
+  '/data/2079-11.json',
+  '/data/2079-12.json',
 ]
 
 self.addEventListener('install', function (evt) {
@@ -66,9 +68,9 @@ self.addEventListener('fetch', function (event) {
               response ||
               fetch(event.request)
                 .then(function (response) {
-                    cache.put(event.request, response.clone())
-                    return response
-                  })
+                  cache.put(event.request, response.clone())
+                  return response
+                })
                 .catch(console.error)
             )
           })
