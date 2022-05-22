@@ -48,4 +48,4 @@ jobs:
           build_dir: public
           target_branch: master
         env:
-          GITHUB_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
