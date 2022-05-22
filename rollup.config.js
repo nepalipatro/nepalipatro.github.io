@@ -8,7 +8,7 @@ import copy from 'rollup-plugin-copy'
 import { minify } from 'html-minifier-terser'
 
 const pkg = require('./package.json')
-const production = !process.env.ROLLUP_WATCH
+const production = process.env.NODE_ENV === 'production'
 
 const defaultOptions = {
   removeComments: true,
@@ -52,7 +52,7 @@ function serve() {
 export default {
   input: 'src/main.js',
   output: {
-    sourcemap: process.env.NODE_ENV !== 'production',
+    sourcemap: !production,
     format: 'iife',
     name: 'app',
     file: 'public/build/bundle.js',
@@ -92,18 +92,9 @@ export default {
     production && terser(),
     production && copy({
       targets: [
-        { src: 'public/build/*', dest: 'dist/build' },
-        { src: 'public/data/*', dest: 'dist/data' },
-        { src: 'public/icons/*', dest: 'dist/icons' },
-        {
-          src: 'public/lang/*',
-          dest: 'dist/lang',
-          transform: async (contents) => await minify(contents.toString(), defaultOptions),
-        },
-        { src: 'public/favicon.ico', dest: 'dist/' },
         {
           src: ['public/sw.js', 'public/index.html', 'public/global.css', 'public/manifest.json'],
-          dest: 'dist/',
+          dest: 'public/',
           transform: async (contents, fileName) => {
             let contentString = contents.toString()
             if (['index.html', 'global.css', 'manifest.json'].includes(fileName)) {
