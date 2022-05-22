@@ -9,7 +9,6 @@ export default {
     { en: 'Home', ne: 'जग राख्न्ने साइत' },
     { en: 'Home Shift', ne: 'घर सर्ने साइत' },
   ],
-  years: [2074, 2075, 2076, 2077, 2078],
   extraMonth: { en: 'Adhik ', ne: 'अधिक ' },
   days: [
     { ne: 'आइतवार', en: 'Sunday' },

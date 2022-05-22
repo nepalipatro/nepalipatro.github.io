@@ -85,6 +85,7 @@
     align-items: start;
     text-align: center;
     line-height: 1.4;
+    font-size: 14px;
   }
   .date h2 {
     font-size: 3.5em;

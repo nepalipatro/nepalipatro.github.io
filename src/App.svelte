@@ -1,7 +1,7 @@
 <script>
   import { onDestroy, onMount } from 'svelte'
 
-  import { themeState, localeState, currentYearMonthState } from './store'
+  import { themeState, localeState, yearsState, currentYearMonthState } from './store'
   import { setupI18n, isLocaleLoaded, dir, _ } from './i18n'
   import constants from './utils/constants'
   import en2neNumbers from './utils/en2neNumbers'
@@ -16,6 +16,7 @@
   let today = new Date()
   let currentYearMonth = {}
   let isDark = true
+  let years = []
   let loading = false
   let locale = DEFAULT_LANG
   $: data = ''
@@ -50,6 +51,10 @@
   themeState.subscribe((x) => {
     isDark = x === 'dark'
     document.body.setAttribute('data-theme', x)
+  })
+
+  yearsState.subscribe((x) => {
+    years = x
   })
 
   localeState.subscribe((value) => {
@@ -137,7 +142,7 @@
   function getSelected() {
     const selected = location.hash.split('/').pop()
     const [year, month] = selected.split('-')
-    if (constants.years.includes(+year) && +month < 13 > 0) {
+    if (years.includes(+year) && +month < 13 > 0) {
       return selected
     }
   }
@@ -357,7 +362,7 @@
     <div class="navigation">
       <button class="outlined-btn" on:click={todayClickHandler}>{$_('today')}</button>
       <select name="year" class="outlined-select" on:input={yearChangeHandler}>
-        {#each constants.years as year}
+        {#each years as year}
           <option value={year} selected={currentYearMonth.year === year + ''}>
             {locale === DEFAULT_LANG ? en2neNumbers(year) : year}
           </option>
