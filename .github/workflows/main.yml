@@ -1,0 +1,51 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Yarn cache directory
+        id: yarn-cache-dir
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Yarn cache
+        uses: actions/cache@v1
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Cache Folder
+        uses: actions/cache@v1
+        id: cache-folder
+        with:
+          path: .cache
+          key: ${{ runner.os }}-cache
+          restore-keys: |
+            ${{ runner.os }}-cache
+      - run: yarn install --pure-lockfile
+        name: Install dependencies
+
+      - run: yarn build
+        name: Build
+        env:
+          NODE_ENV: production
+      - name: Deploy 🚀
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          build_dir: public
+          target_branch: master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
